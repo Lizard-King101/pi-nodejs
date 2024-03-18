@@ -61,6 +61,16 @@ export default class PiNetwork {
     }
   };
 
+  public approvePayment = async (paymentId: string): Promise<PaymentDTO> => {
+    try {
+      const axiosClient = getAxiosClient(this.API_KEY, this.axiosOptions);
+      const response = await axiosClient.post(`/v2/payments/${paymentId}/approve`);
+      return response.data;
+    } finally {
+      this.currentPayment = null;
+    }
+  }
+
   public completePayment = async (paymentId: string, txid: string): Promise<PaymentDTO> => {
     try {
       const axiosClient = getAxiosClient(this.API_KEY, this.axiosOptions);
